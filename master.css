@@ -27,7 +27,7 @@ body{
 .control-panel #name,
 .control-panel #email,
 .control-panel #tel,
-.control-panel #adress{
+.control-panel #address{
     margin-top: 20px;
     padding: 2px;
     height:20px;

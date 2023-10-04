@@ -7,6 +7,59 @@
     <title></title>
 </head>
 <body>
+                <?php
+                //connect to database
+                $dsn = 'mysql:host=localhost;dbname=students';
+                $user = 'root';
+                $pass = '';
+            
+                try{
+                    $con = new PDO($dsn,$user,$pass);
+                    $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                }
+                catch(PDOException $e){
+                    echo "faild " . $e->getMessage();
+                }
+                $res = $con->query("SELECT * FROM student");
+            
+                $name = '';
+                $email = '';
+                $tel_number ='';
+                $address = '';
+            
+                if (isset($_POST["name"])){
+                    $name = $_POST["name"];
+                }
+                if (isset($_POST["email"])){
+                    $email = $_POST["email"];
+                }
+                if (isset($_POST["tel"])){
+                    $tel_number = $_POST["tel"];
+                }
+                if (isset($_POST["address"])){
+                    $address = $_POST["address"];
+                }
+            
+                $sqls = '';
+            
+                if(isset($_POST["add"])){
+                    $sqls = "INSERT INTO student ( name , email , tel_number , address ) values(:name, :email, :tel_number, :address)";
+                    $data = [
+                        ':name' =>$name,
+                        ':email' =>$email,
+                        ':tel_number' => $tel_number,
+                        ':address' =>$address
+                    ];
+                    $con->prepare($sqls)->execute($data);
+                    header("Location : home.php");
+                }
+            
+                if(isset($_POST["del"])){
+                    $sqls = "DELETE FROM student WHERE email = '$email' && name ='$name' ";
+                    $con->query($sqls);
+                    header("Location : home.php");
+                }
+                ?>
     <div>
         <div class = "control-panel">
             <form action="" method="post">
@@ -18,13 +71,13 @@
                 <input type="text" name="name" id="name" placeholder="Type Student Name">
                 <br>
                 <label for="email">Student Email :</label> <br>
-                <input type="email" name="email" id="email" placeholder="Type Student Email">
+                <input type="email" name="email" id="email" placeholder="Type Student Email" required>
                 <br>
                 <label for="name">Student Number :</label> <br>
                 <input type="text" name="tel" id="tel" placeholder="Type Student Telephone Number">
                 <br>
-                <label for="name">Student Adress :</label> <br>
-                <input type="text" name="adress" id="adress" placeholder="Type Student Adress">
+                <label for="name">Student Address :</label> <br>
+                <input type="text" name="address" id="address" placeholder="Type Student Address">
                 <br>
                 <input class="button" type="submit" id="add" name="add" value="Add">
                 <input class="button" type="submit" id="del" name="del" value="Delete">
@@ -39,11 +92,17 @@
                     <th>Student Tel-Number</th>
                     <th>Student Adress</th>
                 </tr>
-                <td>1</td>
-                <td>Sherif Ashraf</td>
-                <td>sherifashraf51203@gmail.com</td>
-                <td>01069782279</td>
-                <td>Egypt</td>
+                <?php
+                while ($row = $res->fetch()){
+                    echo "<tr>";
+                        echo  "<td>" . $row['id'] . "</td>";
+                        echo "<td>" . $row['name'] . "</td>";
+                        echo "<td>" . $row['email'] . "</td>";
+                        echo "<td>" . $row['tel_number'] . "</td>";
+                        echo "<td>" . $row['address'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
             </table>
         </div>
     </div>
