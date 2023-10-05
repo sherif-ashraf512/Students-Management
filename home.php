@@ -62,7 +62,7 @@
                 ?>
     <div>
         <div class = "control-panel">
-            <form action="" method="post">
+            <form action="<?php header("Location:home.php") ?>" method="post">
                 <div>
                     <br>
                     <h3>Admin Panel</h3>
@@ -80,7 +80,7 @@
                 <input type="text" name="address" id="address" placeholder="Type Student Address">
                 <br>
                 <input class="button" type="submit" id="add" name="add" value="Add">
-                <input class="button" type="submit" id="del" name="del" value="Delete">
+                <input class="button" type="submit" id="del" name="del" title="To Delete A student You need To Input Student Name And Input Student Email" value="Delete">
             </form>
         </div>
         <div class="tbl">
