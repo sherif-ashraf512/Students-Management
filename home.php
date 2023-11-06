@@ -52,17 +52,19 @@
                     ];
                     $con->prepare($sqls)->execute($data);
                     header("Location : home.php");
+                    exit();
                 }
             
                 if(isset($_POST["del"])){
                     $sqls = "DELETE FROM student WHERE email = '$email' && name ='$name' ";
                     $con->query($sqls);
                     header("Location : home.php");
+                    exit();
                 }
                 ?>
     <div>
         <div class = "control-panel">
-            <form action="<?php header("Location:home.php") ?>" method="post">
+            <form action="" method="post">
                 <div>
                     <br>
                     <h3>Admin Panel</h3>
